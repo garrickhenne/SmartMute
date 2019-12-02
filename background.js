@@ -54,7 +54,6 @@ function muteInactiveTabs(firstTab,change) {
         currentPlayingTab = firstTab.id;
         isWaitingToUnmute = true;
         console.log(`Current Muted Tab: ${currentMutedTab}`);
-        console.log(`isWaitingToUnMute is currently: ${isWaitingToUnmute}`);
         return;
       }
     });
