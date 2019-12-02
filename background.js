@@ -1,5 +1,3 @@
-console.log("background running");
-
 var isWaitingToUnmute = false;
 var currentMutedTab;
 var currentPlayingTab;
@@ -18,11 +16,9 @@ chrome.tabs.onUpdated.addListener((tabId, change, firstTab) => {
 //Unmutes Audio when played audio is done
 chrome.tabs.onUpdated.addListener((tabId, change, playingTab) => {
   if (isWaitingToUnmute) {
-    console.log(`is currentPlayingTab Undefined? ${currentPlayingTab == undefined}`);
     chrome.tabs.get(currentPlayingTab, function(currentPlayingTabTab) {
       if (playingTab.id === currentPlayingTabTab.id && !currentPlayingTabTab.audible) {
         chrome.tabs.update(currentMutedTab, {muted: false});
-        console.log(`Successfully UNMUTED: ${currentMutedTab}`);
         isWaitingToUnmute = false;
         return;
       }
@@ -35,7 +31,6 @@ chrome.tabs.onRemoved.addListener((closingTabId, removeInfo) => {
   if (isWaitingToUnmute && (currentPlayingTab != undefined)) {
     if (closingTabId === currentPlayingTab) {
       chrome.tabs.update(currentMutedTab, {muted: false});
-      console.log("Running Exiting unmute");
       isWaitingToUnmute = false;
       return;
     }
@@ -48,12 +43,9 @@ function muteInactiveTabs(firstTab,change) {
     tabs.forEach(function (tab) {
       if (tab.audible && tab.id !== firstTab.id && !isWaitingToUnmute) {
         chrome.tabs.update(tab.id, { muted: true });
-        console.log(`TAB MUTED: ${tab.url}`);
-        console.log(`TAB PLAYING: ${firstTab.url}`);
         currentMutedTab   = tab.id;
         currentPlayingTab = firstTab.id;
         isWaitingToUnmute = true;
-        console.log(`Current Muted Tab: ${currentMutedTab}`);
         return;
       }
     });
