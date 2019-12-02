@@ -1,13 +1,15 @@
 {
-    "name": "TabMute",
+    "name": "SmartMute",
     "version": "1.0",
     "description": "Mutes all tabs that were playing audio when you open a new tab that contains playable audio",
     "background": {
         "scripts": ["background.js"],
         "persistent": false
     },
+    "icons": {"128": "logo_128.png"},
     "browser_action": {
-        "default_icon": "logo.png"
+        "default_icon": "logo.png",
+        "default_popup": "popup.html"
     },
     "permissions": ["tabs", "activeTab"],
     "manifest_version": 2
